@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.ui.commands">
+		<command categoryId="XDDtoOD.category" id="com.br_automation.buoat.xdd2od.commands.convertCommand" name="Convert to openPOWERLINK OD"/>
+		<category id="XDDtoOD.category" name="XDD To OD"/>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler class="com.br_automation.buoat.xdd2od.handlers.ConvertHandler" commandId="com.br_automation.buoat.xdd2od.commands.convertCommand"/>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+			<command
+         commandId="com.br_automation.buoat.xdd2od.commands.convertCommand"
+         icon="icons/plk.bmp"
+         id="com.br_automation.buoat.xdd2od.menuContribution"
+         label="Generate openPOWERLINK OD"
+         tooltip="Generate openPOWERLINK OD">
+				<visibleWhen checkEnabled="true">
+					<or>
+						<with variable="selection">
+							<iterate>
+								<reference definitionId="org.eclipse.example.testExtension"/>
+							</iterate>
+						</with>
+						<with variable="activeEditorInput">
+							<reference definitionId="org.eclipse.example.testExtension"/>
+						</with>
+					</or>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.core.expressions.definitions">
+		<definition id="org.eclipse.example.testExtension">
+			<adapt type="org.eclipse.core.resources.IResource">
+				<or>
+					<test property="org.eclipse.core.resources.extension" value="xdd"/>
+					<test property="org.eclipse.core.resources.extension" value="xdc"/>
+				</or>
+			</adapt>
+		</definition>
+	</extension>
+</plugin>

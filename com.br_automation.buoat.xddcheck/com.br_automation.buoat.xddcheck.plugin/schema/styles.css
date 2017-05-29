@@ -1,0 +1,58 @@
+<!--/*--><root><![CDATA[
+
+body {
+    font-family:'Times New Roman';
+    font-size:12pt;
+}
+
+img.centered {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+*.centered {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+table.headerTable {
+    border-style:none;
+    border-width:thin;
+    height:50px;
+    border-collapse:collapse;
+}
+
+table.headerTable td {
+    border-style:none;
+    border-width:thin;
+}
+
+table.indented {
+    margin-left:20px;
+}
+
+h1, h2, h3 {
+    text-decoration:underline;
+    page-break-after:avoid;
+}
+
+table.results {
+  border-style:solid;
+  border-width:thin;
+  border-collapse:collapse;
+}
+
+table.results td {
+  border-style:solid;
+  border-width:thin;  
+}
+
+table.results th {
+  border-style:solid;
+  border-width:medium;
+  padding-left:5px;
+  padding-right:5px;
+}
+
+]]></root><!--*/-->

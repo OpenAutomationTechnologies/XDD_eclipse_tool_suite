@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================================
+	 02.02.2016
+
+	 XDD to OD converter
+
+	 rueckerc
+	 B&R Industrie-Elektronik GmbH
+	 ====================================================================== -->
+<project name="XDD to OD generator project" default="convertXddToOd" basedir=".">
+
+	<!-- Property definition -->
+	<property name="lib" location="./com.br_automation.buoat.xdd2od.plugin/lib" />
+	<property name="style" location="./com.br_automation.buoat.xdd2od.plugin/schema" />
+	<property name="output" location="./output/" />
+
+	<!-- Build Info Output -->
+	<target name="info">
+		<echo message="XDD to OD converter" level="info" />
+		<echo message="rueckerc" level="info" />
+		<echo message="B&amp;R Industrie-Elektronik GmbH" level="info" />
+	</target>
+
+	<!-- Make directories if not existing -->
+	<target name="init" depends="info">
+		<mkdir dir="${output}" />
+		<echo message="Output directories created" level="info" />
+	</target>
+
+	<!-- Clean all output directories if not empty -->
+	<target name="cleanDir" depends="init">
+		<delete includeemptydirs="true">
+			<fileset dir="${output}" includes="**/*" />
+		</delete>
+		<echo message="Clean of output and documentation directories successful" level="info" />
+	</target>
+
+	<!-- Convert XDD to OD -->
+	<target name="convertXddToOd" depends="cleanDir">
+		<xslt style="${style}/XDDtoOD.xsl" basedir="./input/" destdir="${output}" processor="trax" extension=".h" includes="*.xd*,*.XD*">
+			<classpath>
+				<pathelement location="${lib}/saxon-9.1.0.8.jar" />
+			</classpath>
+			<factory name="net.sf.saxon.TransformerFactoryImpl">
+				<attribute name="http://saxon.sf.net/feature/linenumbering" value="true" />
+			</factory>
+			<param name="allow-foreign" expression="true" />
+		</xslt>
+	</target>
+</project>

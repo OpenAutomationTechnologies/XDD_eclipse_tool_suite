@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.ui.commands">
+		<command categoryId="ValidateXDD.category" id="com.br_automation.buoat.xddcheck.commands.convertCommand" name="Validate XDD"/>
+		<category id="ValidateXDD.category" name="Validate XDD"/>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler class="com.br_automation.buoat.xddcheck.handlers.ConvertHandler" commandId="com.br_automation.buoat.xddcheck.commands.convertCommand"/>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+			<command
+         commandId="com.br_automation.buoat.xddcheck.commands.convertCommand"
+         icon="icons/plk.bmp"
+         id="com.br_automation.buoat.xddcheck.menuContribution"
+         label="Run XDD / XDC Checker"
+         tooltip="Run XDD / XDC Checker">
+				<visibleWhen checkEnabled="true">
+					<or>
+						<with variable="selection">
+							<iterate>
+								<reference definitionId="com.br_automation.buoat.xddcheck.testXddExtension"/>
+							</iterate>
+						</with>
+						<with variable="activeMenuSelection">
+       <iterate>
+          <reference
+                definitionId="com.br_automation.buoat.xddcheck.testXddExtension">
+          </reference>
+       </iterate>
+						</with>
+					</or>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.core.expressions.definitions">
+		<definition id="com.br_automation.buoat.xddcheck.testXddExtension">
+			<adapt type="org.eclipse.core.resources.IResource">
+				<or>
+					<test
+           property="org.eclipse.core.resources.name"
+           value="*.xdd"/>
+					<test
+           forcePluginActivation="true"
+           property="org.eclipse.core.resources.name"
+           value="*.xdc"/>
+				</or>
+			</adapt>
+		</definition>
+	</extension>
+</plugin>
