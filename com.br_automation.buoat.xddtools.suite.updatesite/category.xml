@@ -6,5 +6,8 @@
 	<feature url="features/com.br_automation.buoat.xddcheck.feature_1.0.0.qualifier.jar" id="com.br_automation.buoat.xddcheck.feature" version="1.0.0.qualifier">
 		<category name="org.epsg.category"/>
 	</feature>
-	<category-def name="org.epsg.category" label="XDD Tool Suite"/>
+	<!-- <feature url="features/org.epsg.opensafety.osddcheck.feature_1.0.0.qualifier.jar" id="org.epsg.opensafety.osddcheck.feature" version="1.0.0.qualifier">
+		<category name="org.epsg.category"/>
+	</feature> -->
+	<category-def name="org.epsg.category" label="Industrial Automation"/>
 </site>

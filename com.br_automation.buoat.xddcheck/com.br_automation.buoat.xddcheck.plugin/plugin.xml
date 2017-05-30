@@ -14,8 +14,8 @@
          commandId="com.br_automation.buoat.xddcheck.commands.convertCommand"
          icon="icons/plk.bmp"
          id="com.br_automation.buoat.xddcheck.menuContribution"
-         label="Run XDD / XDC Checker"
-         tooltip="Run XDD / XDC Checker">
+         label="Run POWERLINK XDD / XDC Checker"
+         tooltip="Run POWERLINK XDD / XDC Checker">
 				<visibleWhen checkEnabled="true">
 					<or>
 						<with variable="selection">
