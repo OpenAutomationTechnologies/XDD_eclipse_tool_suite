@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -144,7 +145,7 @@ public class CheckerJob extends Job {
 			xddUrl = FileLocator.resolve(xddUrl);
 
 			InputStream inputStream = xddCheckUrl.openConnection().getInputStream();
-			File schemaFile = new File(xddUrl.toURI());
+			File schemaFile = new File(new URI(xddUrl.getProtocol(), xddUrl.getPath(), null));
 
 			SaxErrorHandler errHandler = new SaxErrorHandler(this.logstream);
 
