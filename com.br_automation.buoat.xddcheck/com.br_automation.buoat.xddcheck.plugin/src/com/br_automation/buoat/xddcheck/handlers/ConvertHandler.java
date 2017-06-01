@@ -56,7 +56,7 @@ public class ConvertHandler extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		try {
 			String timeStamp = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
-			
+
 			final Bundle bundle = Platform.getBundle("com.br_automation.buoat.xddcheck.plugin");
 			final Map<String, String> parameterMap = new HashMap<String, String>();
 
@@ -75,7 +75,6 @@ public class ConvertHandler extends AbstractHandler {
 			parameterMap.put("prmCreatedOn", timeStamp);
 			parameterMap.put("prmCheckerVersion", "1.0.0");
 			parameterMap.put("prmXddSchemaVersion", "0.16");
-			
 
 			ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
 			if (selection instanceof IStructuredSelection) {

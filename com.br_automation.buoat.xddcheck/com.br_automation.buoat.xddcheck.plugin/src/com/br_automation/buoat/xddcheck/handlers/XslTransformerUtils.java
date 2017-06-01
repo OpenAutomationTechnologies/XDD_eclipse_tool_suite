@@ -37,7 +37,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-
 /**
  * @file XslTransformerUtils.java
  * @author Christoph Ruecker, Bernecker + Rainer Industrie-Elektronik Ges.m.b.H
@@ -45,21 +44,22 @@ import javax.xml.transform.stream.StreamSource;
  */
 public final class XslTransformerUtils {
 
-    /**
-     * @brief <b>Private constructor to disable the instantiation.</b>
-     */
-    private XslTransformerUtils() {}
+	/**
+	 * @brief <b>Private constructor to disable the instantiation.</b>
+	 */
+	private XslTransformerUtils() {
+	}
 
-    /**
-     * @brief <b>Creates a TransformerFactory.</b>
-     * @return TransformerFactory
-     */
-    private static TransformerFactory getTransformerFactory() {
-        final TransformerFactory tFactory = TransformerFactory.newInstance();
-        tFactory.setAttribute("http://saxon.sf.net/feature/linenumbering", true);
-        tFactory.setAttribute("http://saxon.sf.net/feature/allow-external-functions", true);
-        return tFactory;
-    }
+	/**
+	 * @brief <b>Creates a TransformerFactory.</b>
+	 * @return TransformerFactory
+	 */
+	private static TransformerFactory getTransformerFactory() {
+		final TransformerFactory tFactory = TransformerFactory.newInstance();
+		tFactory.setAttribute("http://saxon.sf.net/feature/linenumbering", true);
+		tFactory.setAttribute("http://saxon.sf.net/feature/allow-external-functions", true);
+		return tFactory;
+	}
 
 	/**
 	 * @brief <b>XSLT Transformation without extended attributes.</b>
@@ -79,7 +79,7 @@ public final class XslTransformerUtils {
 			final StreamResult outputStream, Map<String, String> parameterMap) throws TransformerException {
 		final TransformerFactory tFactory = XslTransformerUtils.getTransformerFactory();
 		final Transformer transformer = tFactory.newTransformer(new StreamSource(xslt));
-		for (Map.Entry<String,String> param : parameterMap.entrySet()) {
+		for (Map.Entry<String, String> param : parameterMap.entrySet()) {
 			transformer.setParameter(param.getKey(), param.getValue());
 		}
 		transformer.transform(inputStream, outputStream);

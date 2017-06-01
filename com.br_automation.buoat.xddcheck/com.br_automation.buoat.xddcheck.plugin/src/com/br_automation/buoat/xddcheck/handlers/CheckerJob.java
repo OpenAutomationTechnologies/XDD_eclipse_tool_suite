@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -52,6 +54,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.resources.IFile;
@@ -78,6 +85,7 @@ import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.Bundle;
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -161,58 +169,78 @@ public class CheckerJob extends Job {
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			saxParser.parse(input, errHandler);
 
-			subMonitor.worked(50);
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(fileToCheck);
+			XPathFactory xPathfactory = XPathFactory.newInstance();
+			XPath xpath = xPathfactory.newXPath();
 
-			XslTransformerUtils.xsltTransform(new StreamSource(this.fileToCheck), inputStream,
-					new StreamResult(checkerStream), parameterMap);
+			XPathExpression expr = xpath.compile("count(//GeneralFeatures[@DLLFeatureMN = 'true'])");
+			if ((boolean) expr.evaluate(doc, XPathConstants.BOOLEAN)) {
+				logstream.println("The validation of Managing Node XDD / XDC files is currently not supported.");
 
-			URL htmlUrl = FileLocator.find(bundle, new Path("/schema/transform2HTML_full.xsl"), null);
-			htmlUrl = FileLocator.resolve(htmlUrl);
+				htmlStream.close();
+				checkerStream.close();
+				inputStream.close();
 
-			InputStream htmlInputStream = htmlUrl.openConnection().getInputStream();
+				this.logstream.flush();
+				this.logstream.close();
+				return Status.CANCEL_STATUS;
+			} else {
+				subMonitor.worked(50);
 
-			ByteArrayInputStream internalInputStreamHTML = new ByteArrayInputStream(checkerStream.toByteArray());
+				XslTransformerUtils.xsltTransform(new StreamSource(this.fileToCheck), inputStream,
+						new StreamResult(checkerStream), parameterMap);
 
-			parameterMap.put("prmReportFilename", FilenameUtils.removeExtension(this.fileToCheck.getName()) + ".html");
+				URL htmlUrl = FileLocator.find(bundle, new Path("/schema/transform2HTML_full.xsl"), null);
+				htmlUrl = FileLocator.resolve(htmlUrl);
 
-			XslTransformerUtils.xsltTransform(new StreamSource(internalInputStreamHTML), htmlInputStream,
-					new StreamResult(htmlStream), parameterMap);
+				InputStream htmlInputStream = htmlUrl.openConnection().getInputStream();
 
-			OutputStream outputStream = new FileOutputStream(
-					FilenameUtils.removeExtension(this.fileToCheck.getAbsolutePath()) + ".html");
-			htmlStream.writeTo(outputStream);
+				ByteArrayInputStream internalInputStreamHTML = new ByteArrayInputStream(checkerStream.toByteArray());
 
-			htmlStream.close();
-			checkerStream.close();
-			htmlInputStream.close();
-			inputStream.close();
-			outputStream.close();
+				parameterMap.put("prmReportFilename",
+						FilenameUtils.removeExtension(this.fileToCheck.getName()) + ".html");
 
-			Display.getDefault().asyncExec(new Runnable() {
-				public void run() {
-					try {
-						IProject project = ((IResource) element).getProject();
-						project.refreshLocal(IResource.DEPTH_INFINITE, null);
-						IWorkspace workspace = ResourcesPlugin.getWorkspace();
-						IPath location = Path
-								.fromOSString(FilenameUtils.removeExtension(fileToCheck.getAbsolutePath()) + ".html");
-						IFile ifile = workspace.getRoot().getFileForLocation(location);
+				XslTransformerUtils.xsltTransform(new StreamSource(internalInputStreamHTML), htmlInputStream,
+						new StreamResult(htmlStream), parameterMap);
 
-						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						IDE.openEditor(page, ifile);
-					} catch (CoreException e) {
-						logstream.println(e.getMessage());	
+				OutputStream outputStream = new FileOutputStream(
+						FilenameUtils.removeExtension(this.fileToCheck.getAbsolutePath()) + ".html");
+				htmlStream.writeTo(outputStream);
+
+				htmlStream.close();
+				checkerStream.close();
+				htmlInputStream.close();
+				inputStream.close();
+				outputStream.close();
+
+				Display.getDefault().asyncExec(new Runnable() {
+					public void run() {
+						try {
+							IProject project = ((IResource) element).getProject();
+							project.refreshLocal(IResource.DEPTH_INFINITE, null);
+							IWorkspace workspace = ResourcesPlugin.getWorkspace();
+							IPath location = Path.fromOSString(
+									FilenameUtils.removeExtension(fileToCheck.getAbsolutePath()) + ".html");
+							IFile ifile = workspace.getRoot().getFileForLocation(location);
+
+							IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+							IDE.openEditor(page, ifile);
+						} catch (CoreException e) {
+							logstream.println(e.getMessage());
+						}
 					}
-				}
-			});
-			
-			this.logstream.flush();
-			this.logstream.close();
-		} catch (IOException | TransformerException | SAXException | ParserConfigurationException
-				| URISyntaxException e) {
-			if(e instanceof SAXException)
-			{}
-			else
+				});
+
+				this.logstream.flush();
+				this.logstream.close();
+
+			}
+		} catch (IOException | TransformerException | SAXException | ParserConfigurationException | URISyntaxException
+				| XPathExpressionException e) {
+			if (e instanceof SAXException) {
+			} else
 				logstream.println(e.getMessage());
 			return Status.CANCEL_STATUS;
 		}
