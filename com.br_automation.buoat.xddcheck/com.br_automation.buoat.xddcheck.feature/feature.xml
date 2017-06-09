@@ -2,20 +2,20 @@
 <feature
       id="com.br_automation.buoat.xddcheck.feature"
       label="POWERLINK XDD Validator"
-      version="1.0.0.qualifier"
+      version="1.0.1.qualifier"
       provider-name="Bernecker + Rainer Industrie-Elektronik Ges.m.b.H."
       plugin="com.br_automation.buoat.xddcheck.plugin">
 
-   <description url="http://www.example.com/description">
+	<description url="http://www.example.com/description">
       POWERLINK XDD Validator
-   </description>
+	</description>
 
-   <copyright url="http://www.example.com/copyright">
+	<copyright url="http://www.example.com/copyright">
       Copyright (c) 2017 Bernecker + Rainer Industrie-Elektronik Ges.m.b.H.
-   </copyright>
+	</copyright>
 
-   <license url="http://www.example.com/license">
-      Copyright (c) 2017 Bernecker + Rainer Industrie-Elektronik Ges.m.b.H.
+	<license url="http://www.example.com/license">
+Copyright (c) 2017 Bernecker + Rainer Industrie-Elektronik Ges.m.b.H.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -38,9 +38,9 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-   </license>
+	</license>
 
-   <plugin
+	<plugin
          id="com.br_automation.buoat.xddcheck.plugin"
          download-size="0"
          install-size="0"

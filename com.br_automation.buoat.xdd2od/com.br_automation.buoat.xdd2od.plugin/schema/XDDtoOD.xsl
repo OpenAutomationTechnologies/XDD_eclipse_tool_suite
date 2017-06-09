@@ -34,7 +34,7 @@
 	<xsl:output omit-xml-declaration="yes" indent="yes"/>
 	<xsl:strip-space elements="*"/>
 
-	<xsl:variable name="version" select="'1.0.0'"/>
+	<xsl:variable name="version" select="'1.0.1'"/>
 	<xsl:variable name="header" select="concat('//Created by openPOWERLINK object dictionary creator V',$version,' on ', current-dateTime())"/>
 
 	<xsl:variable name="newline">

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.br_automation.buoat.xddtools.suite</groupId>
 		<artifactId>com.br_automation.buoat.xddtools.suite</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 </project>

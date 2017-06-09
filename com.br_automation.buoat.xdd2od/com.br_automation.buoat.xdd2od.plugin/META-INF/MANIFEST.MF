@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: openPOWERLINK XDD to OD converter
 Bundle-SymbolicName: com.br_automation.buoat.xdd2od.plugin;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.0.1.qualifier
 Bundle-Vendor: Bernecker + Rainer Industrie-Elektronik Ges.m.b.H.
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,

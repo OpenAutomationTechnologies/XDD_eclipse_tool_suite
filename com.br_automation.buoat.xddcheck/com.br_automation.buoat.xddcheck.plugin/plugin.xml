@@ -24,11 +24,11 @@
 							</iterate>
 						</with>
 						<with variable="activeMenuSelection">
-       <iterate>
-          <reference
+							<iterate>
+								<reference
                 definitionId="com.br_automation.buoat.xddcheck.testXddExtension">
-          </reference>
-       </iterate>
+								</reference>
+							</iterate>
 						</with>
 					</or>
 				</visibleWhen>
