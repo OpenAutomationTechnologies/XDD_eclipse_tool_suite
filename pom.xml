@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>1.0.0</tycho.version>
-		<findbugs.version>3.0.4</findbugs.version>
+		<findbugs.version>3.0.5</findbugs.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<repositories>

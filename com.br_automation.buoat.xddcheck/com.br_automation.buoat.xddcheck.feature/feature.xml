@@ -3,7 +3,7 @@
       id="com.br_automation.buoat.xddcheck.feature"
       label="POWERLINK XDD Validator"
       version="1.0.1.qualifier"
-      provider-name="Bernecker + Rainer Industrie-Elektronik Ges.m.b.H."
+      provider-name="B&amp;R Industrial Automation GmbH"
       plugin="com.br_automation.buoat.xddcheck.plugin">
 
 	<description url="http://www.example.com/description">
@@ -11,11 +11,11 @@
 	</description>
 
 	<copyright url="http://www.example.com/copyright">
-      Copyright (c) 2017 Bernecker + Rainer Industrie-Elektronik Ges.m.b.H.
+      Copyright (c) 2017 B&amp;R Industrial Automation GmbH
 	</copyright>
 
 	<license url="http://www.example.com/license">
-Copyright (c) 2017 Bernecker + Rainer Industrie-Elektronik Ges.m.b.H.
+Copyright (c) 2017 B&amp;R Industrial Automation GmbH
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

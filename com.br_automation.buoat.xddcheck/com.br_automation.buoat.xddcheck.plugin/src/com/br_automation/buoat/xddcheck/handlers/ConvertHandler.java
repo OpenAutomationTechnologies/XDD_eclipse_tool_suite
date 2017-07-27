@@ -60,15 +60,12 @@ public class ConvertHandler extends AbstractHandler {
 			final Bundle bundle = Platform.getBundle("com.br_automation.buoat.xddcheck.plugin");
 			final Map<String, String> parameterMap = new HashMap<String, String>();
 
-			URL odUrl = FileLocator.find(bundle, new Path("/schema/template_completeOD.xml"), null);
 			URL cssUrl = FileLocator.find(bundle, new Path("/schema/styles.css"), null);
 			URL dicUrl = FileLocator.find(bundle, new Path("/schema/dictionary_en.xml"), null);
 
-			odUrl = FileLocator.resolve(odUrl);
 			cssUrl = FileLocator.resolve(cssUrl);
 			dicUrl = FileLocator.resolve(dicUrl);
 
-			parameterMap.put("prmPathToXddTemplate", odUrl.getPath());
 			parameterMap.put("prmCssFile", cssUrl.getPath());
 			parameterMap.put("prmDictionaryFile", dicUrl.getPath());
 			parameterMap.put("prmCreatedBy", System.getProperty("user.name"));
