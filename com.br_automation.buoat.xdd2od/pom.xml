@@ -5,7 +5,7 @@
 	</prerequisites>
 	<groupId>com.br_automation.buoat.xdd2od</groupId>
 	<artifactId>com.br_automation.buoat.xdd2od</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>1.0.0</tycho.version>

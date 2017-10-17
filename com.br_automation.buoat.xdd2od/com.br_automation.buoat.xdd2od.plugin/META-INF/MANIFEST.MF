@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: openPOWERLINK XDD to OD converter
 Bundle-SymbolicName: com.br_automation.buoat.xdd2od.plugin;singleton:=true
-Bundle-Version: 1.0.1.qualifier
+Bundle-Version: 1.0.2.qualifier
 Bundle-Vendor: B&amp;R Industrial Automation GmbH
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
