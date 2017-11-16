@@ -4,7 +4,7 @@
         <LabelText>POWERLINK Validation-Result</LabelText>
     </Label>
     <Label id="HEADING_XDD">
-        <LabelText>XDD</LabelText>
+        <LabelText>Test-XDD</LabelText>
     </Label>
     <Label id="HEADING_TESTEXECUTION">
         <LabelText>Test-Execution</LabelText>
@@ -22,10 +22,10 @@
         <LabelText> warning(s) found.</LabelText>
     </Label>
     <Label id="TEXT_SCHEMA_VALIDATION_SUCCESSFUL">
-        <LabelText>Schema-Validation successful.</LabelText>
+        <LabelText>XML Schema Validation successful.</LabelText>
     </Label>
     <Label id="TEXT_SEMANTIC_VALIDATION_SUCCESSFUL">
-        <LabelText>Semantic-Validation successful.</LabelText>
+        <LabelText>Semantic Validation successful.</LabelText>
     </Label>
     <Label id="TEXT_CREATED_BY">
         <LabelText>Created by:</LabelText>
@@ -34,10 +34,10 @@
         <LabelText>Created on:</LabelText>
     </Label>
     <Label id="TEXT_FILENAME">
-        <LabelText>Filename:</LabelText>
+        <LabelText>File Name:</LabelText>
     </Label>
     <Label id="TEXT_XDD_SCHEMA_VERSION">
-        <LabelText>XDD-Schema version:</LabelText>
+        <LabelText>XDD Schema version:</LabelText>
     </Label>
     <Label id="TABLE_HEADER_LINE">
         <LabelText>Line</LabelText>
@@ -47,5 +47,26 @@
     </Label>
     <Label id="TABLE_HEADER_MESSAGE">
         <LabelText>Message</LabelText>
+    </Label>
+    <Label id="MD5_HASH">
+        <LabelText>File MD5:</LabelText>
+    </Label>
+    <Label id="XDD_CHECKER_PLUGIN">
+        <LabelText>XDD Checker Plugin:</LabelText>
+    </Label>
+    <Label id="PLK_SPEC_LABEL">
+        <LabelText>POWERLINK Specification:</LabelText>
+    </Label>
+    <Label id="PLK_VERSION">
+        <LabelText>v1.3.0</LabelText>
+    </Label>
+    <Label id="XDD_SPEC">
+        <LabelText>XDD Specification:</LabelText>
+    </Label>
+    <Label id="XDD_SPEC_VERSION">
+        <LabelText>v1.2.0</LabelText>
+    </Label>
+    <Label id="XDD_XML_SCHEMA_VERSION">
+        <LabelText>XDD XML Schema:</LabelText>
     </Label>
 </Dictionary>

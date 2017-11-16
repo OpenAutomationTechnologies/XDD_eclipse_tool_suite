@@ -8,6 +8,8 @@
 	<xsl:param name="prmCreatedOn" select="'-'" />
 	<!-- A string specifying the name of the source of the transformation -->
 	<xsl:param name="prmReportFilename" select="'-'" />
+	<!-- File md5 hash -->
+	<xsl:param name="prmMd5" select="''" />
 	<!-- A string specifying the version of the XDD XML-Schema used for validation -->
 	<xsl:param name="prmXddSchemaVersion" select="'-'" />
 	<!-- 	Whether this stylesheet should insert references to external resources (i.e. pics) into the output-document or not,	supply true if those external resources will be available, false otherwise. -->
@@ -71,6 +73,14 @@
 							<xsl:value-of select="$prmReportFilename" />
 						</td>
 					</tr>
+					<tr>
+						<td>
+							<xsl:value-of select="$dictionary//Label[@id='MD5_HASH']/LabelText"/>
+						</td>
+						<td>
+							<xsl:value-of select="$prmMd5" />
+						</td>
+					</tr>
 				</table>
 				<!-- XDD-Info -->
 				<h3>
@@ -95,7 +105,7 @@
 				<table class="indented">
 					<tr>
 						<td>
-							<xsl:value-of select="concat(substring-before(//svrl:diagnostic-reference[@xml:lang=$prmLang and ../@role='info' and starts-with(@diagnostic, 'info.schematronSchemaVersion')], ':'), ':')" />
+							<xsl:value-of select="$dictionary//Label[@id='XDD_CHECKER_PLUGIN']/LabelText"/>
 						</td>
 						<td>
 							<xsl:value-of select="$prmCheckerVersion"/>
@@ -103,23 +113,23 @@
 					</tr>
 					<tr>
 						<td>
-							POWERLINK Spec version:
+							<xsl:value-of select="$dictionary//Label[@id='PLK_SPEC_LABEL']/LabelText"/>
 						</td>
 						<td>
-							1.3.0
-						</td>
-					</tr>
-					<tr>
-						<td>
-							XDD Spec version:
-						</td>
-						<td>
-							1.2.0
+							<xsl:value-of select="$dictionary//Label[@id='PLK_VERSION']/LabelText"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<xsl:value-of select="$dictionary//Label[@id='TEXT_XDD_SCHEMA_VERSION']/LabelText"/>
+							<xsl:value-of select="$dictionary//Label[@id='XDD_SPEC']/LabelText"/>
+						</td>
+						<td>
+							<xsl:value-of select="$dictionary//Label[@id='XDD_SPEC_VERSION']/LabelText"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<xsl:value-of select="$dictionary//Label[@id='XDD_XML_SCHEMA_VERSION']/LabelText"/>
 						</td>
 						<td>
 							<xsl:value-of select="$prmXddSchemaVersion"/>

@@ -70,8 +70,8 @@ public class ConvertHandler extends AbstractHandler {
 			parameterMap.put("prmDictionaryFile", dicUrl.getPath());
 			parameterMap.put("prmCreatedBy", System.getProperty("user.name"));
 			parameterMap.put("prmCreatedOn", timeStamp);
-			parameterMap.put("prmCheckerVersion", "1.0.0");
-			parameterMap.put("prmXddSchemaVersion", "0.16");
+			parameterMap.put("prmCheckerVersion", "v1.0.3");
+			parameterMap.put("prmXddSchemaVersion", "v0.16");
 
 			ISelection selection = HandlerUtil.getCurrentSelectionChecked(event);
 			if (selection instanceof IStructuredSelection) {

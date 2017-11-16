@@ -60,6 +60,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -192,7 +193,13 @@ public class CheckerJob extends Job {
 				return Status.CANCEL_STATUS;
 			}
 			subMonitor.worked(50);
-
+			
+			FileInputStream createMD5 = new FileInputStream(
+					fileToCheck);
+			String md5 = DigestUtils.md5Hex(createMD5);	
+			parameterMap.put("prmMd5", md5);
+			createMD5.close();
+			
 			XslTransformerUtils.xsltTransform(new StreamSource(this.fileToCheck), inputStream,
 					new StreamResult(checkerStream), parameterMap);
 
