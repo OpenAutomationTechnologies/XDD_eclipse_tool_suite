@@ -145,8 +145,22 @@ public class CheckerJob extends Job {
 			Bundle bundle = Platform.getBundle("com.br_automation.buoat.xddcheck.plugin");
 			ByteArrayOutputStream checkerStream = new ByteArrayOutputStream();
 			ByteArrayOutputStream htmlStream = new ByteArrayOutputStream();
+			URL xddCheckUrl;
 
-			URL xddCheckUrl = FileLocator.find(bundle, new Path("/schema/xdd_check.xsl"), null);
+			InputStream input = new FileInputStream(fileToCheck);
+
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(fileToCheck);
+			XPathFactory xPathfactory = XPathFactory.newInstance();
+			XPath xpath = xPathfactory.newXPath();
+			XPathExpression expr = xpath.compile("count(//GeneralFeatures[@DLLFeatureMN = 'true'])");
+			if ((boolean) expr.evaluate(doc, XPathConstants.BOOLEAN)) {
+				xddCheckUrl = FileLocator.find(bundle, new Path("/schema/xdd_check_mn.xsl"), null);
+
+			} else {
+				xddCheckUrl = FileLocator.find(bundle, new Path("/schema/xdd_check.xsl"), null);
+			}
 			xddCheckUrl = FileLocator.resolve(xddCheckUrl);
 
 			URL xddUrl = FileLocator.find(bundle, new Path("/schema/xdd/Powerlink_Main.xsd"), null);
@@ -157,8 +171,6 @@ public class CheckerJob extends Job {
 
 			SaxErrorHandler errHandler = new SaxErrorHandler(this.logstream);
 
-			InputStream input = new FileInputStream(fileToCheck);
-
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(schemaFile);
 
@@ -168,16 +180,8 @@ public class CheckerJob extends Job {
 
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			saxParser.parse(input, errHandler);
-
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(fileToCheck);
-			XPathFactory xPathfactory = XPathFactory.newInstance();
-			XPath xpath = xPathfactory.newXPath();
-
-			XPathExpression expr = xpath.compile("count(//GeneralFeatures[@DLLFeatureMN = 'true'])");
-			if ((boolean) expr.evaluate(doc, XPathConstants.BOOLEAN)) {
-				logstream.println("The validation of Managing Node XDD / XDC files is currently not supported.");
+			if (errHandler.validationErrors.size() != 0) {
+				logstream.println("The validation has been cancelled due to XML schema validation issues.");
 
 				htmlStream.close();
 				checkerStream.close();
@@ -186,57 +190,55 @@ public class CheckerJob extends Job {
 				this.logstream.flush();
 				this.logstream.close();
 				return Status.CANCEL_STATUS;
-			} else {
-				subMonitor.worked(50);
-
-				XslTransformerUtils.xsltTransform(new StreamSource(this.fileToCheck), inputStream,
-						new StreamResult(checkerStream), parameterMap);
-
-				URL htmlUrl = FileLocator.find(bundle, new Path("/schema/transform2HTML_full.xsl"), null);
-				htmlUrl = FileLocator.resolve(htmlUrl);
-
-				InputStream htmlInputStream = htmlUrl.openConnection().getInputStream();
-
-				ByteArrayInputStream internalInputStreamHTML = new ByteArrayInputStream(checkerStream.toByteArray());
-
-				parameterMap.put("prmReportFilename",
-						FilenameUtils.removeExtension(this.fileToCheck.getName()) + ".html");
-
-				XslTransformerUtils.xsltTransform(new StreamSource(internalInputStreamHTML), htmlInputStream,
-						new StreamResult(htmlStream), parameterMap);
-
-				OutputStream outputStream = new FileOutputStream(
-						FilenameUtils.removeExtension(this.fileToCheck.getAbsolutePath()) + ".html");
-				htmlStream.writeTo(outputStream);
-
-				htmlStream.close();
-				checkerStream.close();
-				htmlInputStream.close();
-				inputStream.close();
-				outputStream.close();
-
-				Display.getDefault().asyncExec(new Runnable() {
-					public void run() {
-						try {
-							IProject project = ((IResource) element).getProject();
-							project.refreshLocal(IResource.DEPTH_INFINITE, null);
-							IWorkspace workspace = ResourcesPlugin.getWorkspace();
-							IPath location = Path.fromOSString(
-									FilenameUtils.removeExtension(fileToCheck.getAbsolutePath()) + ".html");
-							IFile ifile = workspace.getRoot().getFileForLocation(location);
-
-							IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-							IDE.openEditor(page, ifile);
-						} catch (CoreException e) {
-							logstream.println(e.getMessage());
-						}
-					}
-				});
-
-				this.logstream.flush();
-				this.logstream.close();
-
 			}
+			subMonitor.worked(50);
+
+			XslTransformerUtils.xsltTransform(new StreamSource(this.fileToCheck), inputStream,
+					new StreamResult(checkerStream), parameterMap);
+
+			URL htmlUrl = FileLocator.find(bundle, new Path("/schema/transform2HTML_full.xsl"), null);
+			htmlUrl = FileLocator.resolve(htmlUrl);
+
+			InputStream htmlInputStream = htmlUrl.openConnection().getInputStream();
+
+			ByteArrayInputStream internalInputStreamHTML = new ByteArrayInputStream(checkerStream.toByteArray());
+
+			parameterMap.put("prmReportFilename", FilenameUtils.removeExtension(this.fileToCheck.getName()) + ".html");
+
+			XslTransformerUtils.xsltTransform(new StreamSource(internalInputStreamHTML), htmlInputStream,
+					new StreamResult(htmlStream), parameterMap);
+
+			OutputStream outputStream = new FileOutputStream(
+					FilenameUtils.removeExtension(this.fileToCheck.getAbsolutePath()) + ".html");
+			htmlStream.writeTo(outputStream);
+
+			htmlStream.close();
+			checkerStream.close();
+			htmlInputStream.close();
+			inputStream.close();
+			outputStream.close();
+
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					try {
+						IProject project = ((IResource) element).getProject();
+						project.refreshLocal(IResource.DEPTH_INFINITE, null);
+						IWorkspace workspace = ResourcesPlugin.getWorkspace();
+						IPath location = Path
+								.fromOSString(FilenameUtils.removeExtension(fileToCheck.getAbsolutePath()) + ".html");
+						IFile ifile = workspace.getRoot().getFileForLocation(location);
+
+						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						IDE.openEditor(page, ifile);
+					} catch (CoreException e) {
+						logstream.println(e.getMessage());
+					}
+				}
+			});
+
+			this.logstream.flush();
+			this.logstream.close();
+
 		} catch (IOException | TransformerException | SAXException | ParserConfigurationException | URISyntaxException
 				| XPathExpressionException e) {
 			if (e instanceof SAXException) {
