@@ -1,0 +1,4 @@
+[submodule "com.br_automation.buoat.xddeditor"]
+	path = com.br_automation.buoat.xddeditor
+	url = ssh://git@github.com:OpenAutomationTechnologies/openCONFIGURATOR_XDD_editor.git
+	branch = master

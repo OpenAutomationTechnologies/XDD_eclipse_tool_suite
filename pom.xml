@@ -86,6 +86,7 @@
 	<modules>
 		<module>com.br_automation.buoat.xddcheck</module>
 		<module>com.br_automation.buoat.xdd2od</module>
+		<module>com.br_automation.buoat.xddeditor</module>
 		<module>com.br_automation.buoat.xddtools.suite.updatesite</module>
 	</modules>
 </project>
