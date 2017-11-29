@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: POWERLINK XDD Checker
+Bundle-Name: Ethernet POWERLINK XDD Checker
 Bundle-SymbolicName: com.br_automation.buoat.xddcheck.plugin;singleton:=true
-Bundle-Version: 1.0.3.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: B&amp;R Industrial Automation GmbH
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
