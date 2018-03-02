@@ -182,7 +182,7 @@ public class CheckerJob extends Job {
 			SAXParser saxParser = saxParserFactory.newSAXParser();
 			saxParser.parse(input, errHandler);
 			if (errHandler.validationErrors.size() != 0) {
-				logstream.println("The validation has been cancelled due to XML schema validation issues.");
+				logstream.println("The validation has been canceled due to XML schema validation issues.");
 
 				htmlStream.close();
 				checkerStream.close();
