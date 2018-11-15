@@ -348,20 +348,30 @@
 				<xsl:with-param name="lowLimit" select="xdd:SubObject[2]/@lowLimit"/>
 				<xsl:with-param name="highLimit" select="xdd:SubObject[2]/@highLimit"/>
 			</xsl:call-template>
-		</xsl:variable>
+</xsl:variable>
 
 		<xsl:variable name="tEplObd">
 			<xsl:call-template name="BuildtEplObd">
 				<xsl:with-param name="tEplObd" select="xdd:SubObject[2]/string(@dataType)"/>
 			</xsl:call-template>
 		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="($indexDec &gt;= 5632 and $indexDec &lt;= 5887) or ($indexDec &gt;= 6656 and $indexDec &lt;= 6911)">
+				<xsl:value-of select="concat(', '
+					,$kEplObdAcc,', '
+					,translate(normalize-space(@name),'/:,. ','')
+					)"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat(', '
+					,$kEplObdTyp,', '
+					,$kEplObdAcc,', '
+					,$tEplObd,', '
+					,translate(normalize-space(@name),'/:,. ','')
+					)"/>
+			</xsl:otherwise>
+		</xsl:choose>
 
-		<xsl:value-of select="concat(', '
-		,$kEplObdTyp,', '
-		,$kEplObdAcc,', '
-		,$tEplObd,', '
-		,translate(normalize-space(@name),'/:,. ','')
-		)"/>
 		<xsl:if test="xdd:SubObject[2]/@defaultValue">
 			<xsl:value-of select="concat(', ',xdd:SubObject[2]/@defaultValue)"/>
 		</xsl:if>
@@ -481,7 +491,6 @@
 					<xsl:text>"</xsl:text>
 				</xsl:if>
 			</xsl:when>
-
 			<xsl:otherwise>
 				<xsl:variable name="kEplObdTyp">
 					<xsl:call-template name="BuildkEplObdTyp">
@@ -502,11 +511,20 @@
 				,translate(normalize-space(@name),'/:,. ','')
 				)"/>
 				<xsl:if test="@defaultValue">
-					<xsl:value-of select="concat(', ',@defaultValue)"/>
+					<xsl:choose>
+						<xsl:when test="string(@dataType)='0001' and string(@defaultValue)='true'">
+							<xsl:text>, 0x01</xsl:text>
+						</xsl:when>
+						<xsl:when test="string(@dataType)='0001' and string(@defaultValue)='false'">
+							<xsl:text>, 0x00</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="concat(', ',@defaultValue)"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
-
 		<xsl:if test="@lowLimit">
 			<xsl:value-of select="concat(', ',@lowLimit)"/>
 		</xsl:if>
@@ -570,8 +588,8 @@
 			<xsl:when test="$PDOmapping='no'"/>
 			<xsl:when test="$PDOmapping='default'"/>
 			<xsl:when test="$PDOmapping='optional'"/>
-			<xsl:when test="$PDOmapping='TPDO'">P</xsl:when>
-			<xsl:when test="$PDOmapping='RPDO'">P</xsl:when>
+			<xsl:when test="$PDOmapping='TPDO'">V</xsl:when>
+			<xsl:when test="$PDOmapping='RPDO'">V</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$PDOmapping" />
 			</xsl:otherwise>
